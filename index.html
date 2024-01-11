@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Affichage du contenu d'un fichier VCF</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -9,26 +10,29 @@
             padding: 10px;
             margin-bottom: 10px;
         }
+
         .contact h3 {
             margin: 0;
         }
+
         .contact p {
             margin: 0;
         }
     </style>
 </head>
+
 <body>
     <div id="vcfContent"></div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var vcfUrl = "./fichier.vcf";
 
-            $.get(vcfUrl, function(data) {
+            $.get(vcfUrl, function (data) {
                 var contacts = data.split("BEGIN:VCARD");
                 contacts.shift(); // Remove empty element at the beginning
                 /// parse each lines to get key and values
-                contacts.forEach(function(contact) {
+                contacts.forEach(function (contact) {
                     var lines = contact.split("\n");
                     var name = "";
                     var email = "";
@@ -42,7 +46,7 @@
                     var photo = "";
                     // for each line in lines , split the line by ;
 
-                    lines.forEach(function(line) {
+                    lines.forEach(function (line) {
                         var lineParts = line.split(";")
                         var key = lineParts[0];
                         if (key === "N") {
@@ -56,17 +60,17 @@
                         } else if (key === "EMAIL") {
                             email = lineParts[-1].split(":")[1];
                         } else if (key === "TEL") {
-                            if((lineParts[0] + ";" + lineParts[1]) === "TEL;CELL") {
+                            if ((lineParts[0] + ";" + lineParts[1]) === "TEL;CELL") {
                                 tel_cell = lineParts[2];
-                            } else if ((lineParts[0] + ";" + lineParts[1])  === "TEL;WORK") {
+                            } else if ((lineParts[0] + ";" + lineParts[1]) === "TEL;WORK") {
                                 tel_work = lineParts[2];
-                            } else if ((lineParts[0] + ";" + lineParts[1])  === "TEL;HOME") {
+                            } else if ((lineParts[0] + ";" + lineParts[1]) === "TEL;HOME") {
                                 tel_home = lineParts[2];
-                            } else  {
+                            } else {
                                 tel_other = lineParts[2];
                             }
                         } else if (key === "ADR") {
-                            if((lineParts[0] + ";" + lineParts[1] + ";" + lineParts[2]) === "ADR;WORK;PREF;") {
+                            if ((lineParts[0] + ";" + lineParts[1] + ";" + lineParts[2]) === "ADR;WORK;PREF;") {
                                 for (var i = 3; i < lineParts.length; i++) {
                                     address += lineParts[i] + " ";
                                 }
@@ -80,28 +84,30 @@
                         } else if (key === "PHOTO") {
                             photo = lineParts[1];
                         }
-                        
 
-                    var contactHtml = '<div class="contact">' +
-                                        '<h3>' + name + '</h3>' +
-                                        '<p>' + email + '</p>' +
-                                        '<p>' + fullname + '</p>' +
-                                        '<p>' + tel_cell + '</p>' +
-                                        '<p>' + tel_work + '</p>' +
-                                        '<p>' + tel_home + '</p>' +
-                                        '<p>' + tel_other + '</p>' +
-                                        '<p>' + address + '</p>' +
-                                        '<p>' + website + '</p>' +
-                                        '<p>' + company + '</p>' +
-                                        '<p>' + jobtitle + '</p>' +
-                                        '<p>' + note + '</p>' +
-                                        '<p>' + photo + '</p>' +                                       
-                                      '</div>';
 
-                    $('#vcfContent').append(contactHtml);
+                        var contactHtml = '<div class="contact">' + '<h3>' + name + '</h3>' +
+                            '<p>' + email + '</p>' +
+                            '<p>' + fullname + '</p>' +
+                            '<p>' + tel_cell + '</p>' +
+                            '<p>' + tel_work + '</p>' +
+                            '<p>' + tel_home + '</p>' +
+                            '<p>' + tel_other + '</p>' +
+                            '<p>' + address + '</p>' +
+                            '<p>' + website + '</p>' +
+                            '<p>' + company + '</p>' +
+                            '<p>' + jobtitle + '</p>' +
+                            '<p>' + note + '</p>' +
+                            '<p>' + photo + '</p>' +
+                            '</div>';
+
+                        $('#vcfContent').append(contactHtml);
+                    });
                 });
             });
         });
+
     </script>
 </body>
+
 </html>
