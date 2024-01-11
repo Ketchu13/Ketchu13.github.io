@@ -18,98 +18,113 @@
         .contact p {
             margin: 0;
         }
+        body {
+            background-color: #000;
+        }
+        td {
+            border: 0px solid #fff;
+            color: #fff;
+            text-align: Left;
+        }
     </style>
 </head>
 
 <body>
-    <div id="vcfContent"></div>
-
-    <script>
-        $(document).ready(function () {
-            var vcfUrl = "./fichier.vcf";
-
-            $.get(vcfUrl, function (data) {
-                var contacts = data.split("BEGIN:VCARD");
-                contacts.shift(); // Remove empty element at the beginning
-                /// parse each lines to get key and values
-                
-                var lines = contacts[0].split("\n");
-                var name = "";
-                var email = "";
-                var fullname = "";
-                var tel_cell = "";
-                var tel_work = "";
-                var tel_home = "";
-                var tel_other = "";
-                var address = "";
-                var website = "";
-                var company = "";
-                var jobtitle = "";
-                var note = "";
-                var photo = "";
-                // for each line in lines , split the line by ;
-
-                lines.forEach(function (line) {
-                    var lineParts = line.split(";");
-                    var key = lineParts[0];
-                    if (key === "N") {
-                        encodage = lineParts[1];
-                        fullname = lineParts[3] + " " + lineParts[2];
-                    } else if (key === "FN") {
-                        encodage = lineParts[1];
-                        name = lineParts[2];
-                    } else if (key === "ORG") {
-                        company = lineParts[1];
-                    } else if (key === "EMAIL") {
-                        email = lineParts[lineParts.length -1].split(":")[1];
-                    } else if (key === "TEL") {
-                        if ((lineParts[0] + ";" + lineParts[1]) === "TEL;CELL") {
-                            tel_cell = lineParts[2];
-                        } else if ((lineParts[0] + ";" + lineParts[1]) === "TEL;WORK") {
-                            tel_work = lineParts[2];
-                        } else if ((lineParts[0] + ";" + lineParts[1]) === "TEL;HOME") {
-                            tel_home = lineParts[2];
-                        } else {
-                            tel_other = lineParts[2];
-                        }
-                    } else if (key === "ADR") {
-                        if ((lineParts[0] + ";" + lineParts[1] + ";" + lineParts[2]) === "ADR;WORK;PREF;") {
-                            for (var i = 3; i < lineParts.length; i++) {
-                                address += lineParts[i] + " ";
-                            }
-                        }
-                    } else if (key === "URL") {
-                        website = lineParts[1];
-                    } else if (key === "TITLE") {
-                        jobtitle = lineParts[1];
-                    } else if (key === "NOTE") {
-                        note = lineParts[1];
-                    } else if (key === "PHOTO") {
-                        photo = lineParts[1];
-                    }
-
-
-                    var contactHtml = '<div class="contact">' + '<h3>' + name + '</h3>' +
-                        '<p>' + email + '</p>' +
-                        '<p>' + fullname + '</p>' +
-                        '<p>' + tel_cell + '</p>' +
-                        '<p>' + tel_work + '</p>' +
-                        '<p>' + tel_home + '</p>' +
-                        '<p>' + tel_other + '</p>' +
-                        '<p>' + address + '</p>' +
-                        '<p>' + website + '</p>' +
-                        '<p>' + company + '</p>' +
-                        '<p>' + jobtitle + '</p>' +
-                        '<p>' + note + '</p>' +
-                        '<p>' + photo + '</p>' +
-                        '</div>';
-
-                    $('#vcfContent').append(contactHtml);
-                });
-            });
-        });
-
-    </script>
+    <table id="main-table">
+        <tr>
+            <td calspan="2" style="" >
+                <img src="" alt="logo" /><br>
+                <span>Title</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+               <span >Name:</span>
+            </td>
+            <td>
+                <span >Chayrigues</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >First name:</span>
+            </td>
+            <td>
+                <span >Aurélien</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Full Name:</span>
+            </td>
+            <td>
+                <span >Aurélien Chayrigues</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Organisation:</span>
+            </td>
+            <td>
+                <span >ALTRAD COFFRAGE & ETAIEMENT</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Titre:</span>
+            </td>
+            <td>
+                <span >Export Manager</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Tel (work):</span>
+            </td>
+            <td>
+                <span >+33 4 42 10 84 15</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Tel (cell):</span>
+            </td>
+            <td>
+                <span >+33 6 22 63 70 65</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Address:</span>
+            </td>
+            <td>
+                <span >P.A. la verdière II<br>Velaux<br>13880<br>France</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Email:</span>
+            </td>
+            <td>
+                <span >Aurelien.CHAYRIGUES@altrad.com</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Website:</span>
+            </td>
+            <td>
+                <span >www.altrad-coffrage.com</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span >Note:</span>
+            </td>
+            <td>
+                <span >Export Manager</span>
+            </td>
+        </tr>
+    </table>
 </body>
-
 </html>
