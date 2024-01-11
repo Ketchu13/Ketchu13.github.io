@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Affichage du contenu d'un fichier VCF</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .contact {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .contact h3 {
+            margin: 0;
+        }
+        .contact p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="vcfContent"></div>
+
+    <script>
+        $(document).ready(function() {
+            var vcfUrl = "./fichier.vcf";
+
+            $.get(vcfUrl, function(data) {
+                var contacts = data.split("BEGIN:VCARD");
+                contacts.shift(); // Remove empty element at the beginning
+
+                contacts.forEach(function(contact) {
+                    var lines = contact.split("\n");
+                    var name = "";
+                    var email = "";
+
+                    lines.forEach(function(line) {
+                        if (line.startsWith("FN:")) {
+                            name = line.substring(3);
+                        } else if (line.startsWith("EMAIL;")) {
+                            email = line.substring(6);
+                        }
+                    });
+
+                    var contactHtml = '<div class="contact">' +
+                                        '<h3>' + name + '</h3>' +
+                                        '<p>' + email + '</p>' +
+                                      '</div>';
+
+                    $('#vcfContent').append(contactHtml);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
