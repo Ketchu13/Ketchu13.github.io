@@ -61,7 +61,7 @@
                     } else if (key === "ORG") {
                         company = lineParts[1];
                     } else if (key === "EMAIL") {
-                        email = lineParts[-1].split(":")[1];
+                        email = lineParts[lineParts.length -1].split(":")[1];
                     } else if (key === "TEL") {
                         if ((lineParts[0] + ";" + lineParts[1]) === "TEL;CELL") {
                             tel_cell = lineParts[2];
